@@ -1,0 +1,114 @@
+.wrapper{
+    position: relative;
+}
+
+.title{
+    text-align: center;
+    font-size: 26px;
+    margin: 10px 0;
+}
+.add-task{
+    display: flex;
+    background-color: #e4fef2;
+    margin: 0 10px;
+    border-radius: 10px;
+
+    input{
+        padding: 0 10px;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+}
+.add-btn{
+    
+    background-color: #95fdcc;
+    border: none;
+    margin: 5px 10px;
+    padding: 8px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.tittle-content{
+    font-size: 24px;
+    padding-left: 10px;
+    margin: 20px 0;
+}
+
+.close-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+    background-color: #95fdcc;
+    border: none;
+    padding: 8px;
+    border-radius: 2px;
+
+}
+
+
+// NewTask
+.tasks{
+    overflow-y: hidden;
+    overflow-y: auto;
+    height: 300px;
+}
+.task-content {
+    background-color: #e4fef2;
+    padding: 40px;
+    position: absolute;
+    width: 320px;
+    top: 0;
+    border-radius: 5px;
+    
+    .task-submit{
+        text-align: center;
+        padding-top: 20px;
+        
+        button{
+            background-color: #95fdcc;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    }
+}
+
+.task-content label, .task-content input {
+    display: block;
+    width: 100%;
+}
+
+
+.task{
+    
+    background-color: #e4fef2;
+    padding: 10px;
+    margin: 20px;
+    border: 3px solid #95fdcc;
+    border-radius: 5px;
+    
+
+    h6{
+        font-size: 20px;
+        margin: 5px 0;
+    }
+    p{
+        margin: 5px 0;
+    }
+
+}
+
+.task-btn{
+    text-align: center;
+
+    button{
+        margin: 0 10px;
+        border: none;
+        background-color: transparent;
+        font-size: 16px;
+    }
+}
