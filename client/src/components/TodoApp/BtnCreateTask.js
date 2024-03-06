@@ -6,22 +6,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles)
 
-function BtnCreateTask({
-    toggle, 
-    setToggle, 
-    setUpdate, 
-    setTitle, 
-    setDate, 
-    setDescription
-}){
-    const handleToggle = () =>{
-        setTitle('');
-        setDate('');
-        setDescription('');
-        setToggle(!toggle);
-        setUpdate(null);
-    }
-
+function BtnCreateTask({handleToggle}){
+    
     return (
         <div className={cx('add-task')}>
                     <input
