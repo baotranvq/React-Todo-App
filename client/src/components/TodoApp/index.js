@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind'
 import styles from './TodoApp.module.scss'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BtnCreateTask from './BtnCreateTask';
 import InputTask from './InputTask';
 import TaskList from './TaskList';
@@ -14,36 +14,98 @@ function TodoApp() {
     const [update, setUpdate] = useState(null)
     const [toggle, setToggle] = useState(false)
     const [tasks, setTasks] = useState([])
+
     
     // useEffect(() =>{
     //     localStorage.setItem('tasks',JSON.stringify(tasks))
     // },[tasks])
-
     const handleToggle = () =>{
         setUpdate(null)
         setToggle(!toggle);
     }
-
+    // call Api
+    useEffect (() =>{
+        const getData =  async () => {
+            const response = await fetch("/getTasks")
+            const data = await response.json()
+            setTasks(data)
+        }
+        getData()
+    },[])
+    // 
+    const postData = async (data) => {
+        try{
+            const response = await fetch("/postTask", {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({...data}),
+            });
+            const result = await response.json();
+            if(result){
+                setTasks(prev => [...prev, {...result}])
+            }
+        }
+        catch(error){
+            console.error("Error: ", error)
+        }
+    }
     const handleCreateTodo = (values) =>{
-        setTasks(prev => [...prev, {...values}])
+        postData(values);
         setToggle(!toggle)
     }
 
+    const deleteData = async (id) => {
+        try{
+            const response = await fetch(`/deleteTask/${id}`, {
+            method: "DELETE", 
+            headers: {
+                "Content-Type": "application/json",
+            },
+            });
+            const result = await response.json();
+            console.log("Success:", result);
+            if(result){
+               const newTasks =  tasks.filter( task => (task._id !== result._id))
+               setTasks(newTasks);
+            }
+        }
+        catch(error){
+            console.error("Error: ", error)
+        }
+    }
     const handleDeleteTask = (index) =>{
-        const newTasks= [...tasks]
-        newTasks.splice(index, 1);
-        setTasks(newTasks);
+        const idTask = tasks[index]._id;
+        deleteData(idTask)
     }
 
+    async function updateTask(id, data) {
+        try {
+          const response = await fetch(`/updateTask/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json ; charset=UTF-8",
+            },
+          });
+          const result = await response.json();
+          if(result){
+            const newTask = tasks.map(task => (task._id === result._id) ? { ...task, ...result} : task)
+            setTasks(newTask);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+    }
+      
     const handleShowInputUpdate = (index) =>{
         setToggle(!toggle)
         setUpdate(index);
     }
-
     const handleUpdate= (tasks, update, value) =>{
-        const updatedTasks = [...tasks];
-        updatedTasks[update] = {...value}
-        setTasks(updatedTasks);
+        const idTask = tasks[update]._id;
+        updateTask(idTask, value)
         setToggle(!toggle)
     }
     return(
